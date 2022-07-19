@@ -1,0 +1,25 @@
+============================================================
+find Nth highest salary from a table:
+
+mysql:
+	// replace n with highest number
+	select * from employee where sal = (select  min(sal) from  (select name, sal from employee order by sal desc limit n)e1);
+or
+	// 1st highest salary
+	select * from (select * from employee order by sal desc limit 3)e1 order by sal asc limit 1;
+
+	// 2nd highest salary
+	select * from (select * from (select * from employee order by sal asc limit 2)e1 order by sal desc limit 1)e1 order by sal desc limit 1;
+
+	// nth highest salary 
+	select * FROM employee order by sal desc limit n-1, 1; 
+
+
+sql:
+	select * from (select name, sal, dense_ran() over(order by sal desc)r from employee)e1 where r = &n;
+============================================================
+delete duplicate rows(sal) in table:
+
+mysql:
+delete e1 from employee e1 inner join employee e1 where e1.name<e2.name and e1.sal=e2.sal;
+============================================================
